@@ -67,7 +67,7 @@ df_means_for_prediction.drop(columns=['index', 'id', 'day', 'sales', 'date',
 
 
 #form dataset for learning
-list_series_to_choose = sorted(random.sample([i for i in range(len(df_sales))], 2000))
+list_series_to_choose = sorted(random.sample([i for i in range(len(df_sales))], 10000))
 df_sales = df_sales.iloc[list_series_to_choose, :]
 
 df_sales = pd.melt(df_sales, id_vars=['id', 'item_id', 'dept_id', 'cat_id', 'store_id', 'state_id'],
@@ -145,14 +145,14 @@ for k in range(28 * 2):
     df_for_prediction['year'] = output_year
     df_for_prediction['event_name_1'] = output_event_name_1
 
-    predictions = model.predict(df_for_prediction)
+    predictions = model.predict(df_for_prediction[columns])
 
     if k < 28:
         df_out.iloc[:num_of_time_series, k + 1] = predictions
     else:
         df_out.iloc[num_of_time_series:, k - 28 + 1] = predictions
 
-df_out.to_csv("output_lgbm_05.csv", index=False)
+df_out.to_csv("output_lgbm_09.csv", index=False)
 
 end_time = time.time()
 seconds = end_time - start_time
